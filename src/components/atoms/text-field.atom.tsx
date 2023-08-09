@@ -26,7 +26,7 @@ const TextField: FC<ITextField> = (props) => {
   }
 
   return (
-    <div>
+    <div className="flex-1">
       <div className="pb-2 bg-white">
         <Label htmlFor={props.id}>{props.id}</Label>
       </div>

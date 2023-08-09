@@ -1,9 +1,13 @@
-import React from "react";
+import { FC } from "react";
 
-const Loading = () => {
+interface ILoading {
+  text: string;
+}
+
+const Loading: FC<ILoading> = ({ text }) => {
     return (
-      <div className="h-screen flex items-center justify-center font-bold text-4xl animate-pulse">
-        Loading...
+      <div className="h-screen mt-10 flex justify-center font-bold text-xl animate-pulse">
+        {text}
       </div>
     );
   };

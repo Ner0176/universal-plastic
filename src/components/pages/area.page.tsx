@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import MainTemplate from "../templates/main.template";
 import { Toaster } from "../../shadcn/components/ui/toaster";
 import { useToast } from "../../shadcn/components/ui/use-toast";
-import LocationFields from "../molecules/location-fields.molecule";
+import LocationZone from "../molecules/location-zone.molecule";
 import {
   ICoordinates,
   initCoordinates,
 } from "../../interfaces/coordinates.interface";
+import AreaZone from "../molecules/area-zone.molecule";
 
 const AreaPage = () => {
   const { toast } = useToast();
@@ -44,7 +45,7 @@ const AreaPage = () => {
 
   const handleChange = (name: string, value: string) => {
     const validCoordinates = validateCoordinates(name, value);
-    if(!!!validCoordinates){
+    if (!!!validCoordinates) {
       toast({
         title: `Invalid input ${name.toLowerCase()}`,
         variant: "destructive",
@@ -53,14 +54,18 @@ const AreaPage = () => {
       return;
     }
 
-    if (name === "Longitude") setCoordinates({ ...coordinates, ...{ lng: value } });
+    if (name === "Longitude")
+      setCoordinates({ ...coordinates, ...{ lng: value } });
     else setCoordinates({ ...coordinates, ...{ lat: value } });
   };
 
   return (
     <MainTemplate title="Area selector">
-      <LocationFields coordinates={coordinates} handleChange={handleChange} />
-      <Toaster />
+      <div className="flex flex-col">
+        <LocationZone coordinates={coordinates} handleChange={handleChange} />
+        <AreaZone coordinates={coordinates} />
+        <Toaster />
+      </div>
     </MainTemplate>
   );
 };
