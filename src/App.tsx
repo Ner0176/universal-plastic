@@ -1,20 +1,17 @@
 import "./App.css";
-import React, { Suspense } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Loading from "./components/organisms/loading.organism";
-
-const AreaPage = React.lazy(() => import("./components/pages/area.page"));
-const WeatherPage = React.lazy(() => import("./components/pages/weather.page"));
+import React from "react";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import AreaPage from "./components/pages/area.page";
+import WeatherPage from "./components/pages/weather.page";
 
 function App() {
   return (
     <BrowserRouter>
-      <Suspense fallback={<Loading />}>
         <Routes>
+          <Route path="/" element={<Navigate to="/area" />} />
           <Route path="/area" element={<AreaPage />} />
           <Route path="/weather" element={<WeatherPage />} />
         </Routes>
-      </Suspense>
     </BrowserRouter>
   );
 }
