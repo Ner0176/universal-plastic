@@ -6,7 +6,7 @@ interface IScreenTitle {
 
 const ScreenTitle: FC<IScreenTitle> = ({ title }) => {
     return(
-        <div className="flex justify-center font-bold text-3xl underline underline-offset-8">
+        <div className="flex justify-center font-bold text-3xl underline underline-offset-8 mb-10">
             {title}
         </div>
     );

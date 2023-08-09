@@ -7,7 +7,7 @@ interface IMainTemplate {
 
 const MainTemplate: FC<PropsWithChildren<IMainTemplate>> = ({ children,  title}) => {
     return(
-        <div className="h-screen p-5">
+        <div className="p-5">
             <ScreenTitle title={title}/>
             {children}
         </div>
