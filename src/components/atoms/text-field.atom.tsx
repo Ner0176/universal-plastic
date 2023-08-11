@@ -7,6 +7,7 @@ interface ITextField {
   borderRight: boolean;
   value: string;
   handleChange: (name: string, value: string) => void;
+  handleValidate: (name: string, value: string) => void;
   placeholder?: string;
 }
 
@@ -25,6 +26,11 @@ const TextField: FC<ITextField> = (props) => {
     props.handleChange(id, value);
   }
 
+  const handleValidate = (event: any) => {
+    const { id, value } = event.target;
+    props.handleValidate(id, value);
+  }
+
   return (
     <div className="flex-1">
       <div className="pb-2 bg-white">
@@ -37,6 +43,7 @@ const TextField: FC<ITextField> = (props) => {
         className={inputClassName}
         onChange={handleOnChange}
         disabled={disabled}
+        onBlur={handleValidate}
       />
     </div>
   );

@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import MainTemplate from "../templates/main.template";
-import { Toaster } from "../../shadcn/components/ui/toaster";
+import { useEffect, useState } from "react";
 import { useToast } from "../../shadcn/components/ui/use-toast";
-import LocationZone from "../molecules/location-zone.molecule";
 import {
   ICoordinates,
   initCoordinates,
 } from "../../interfaces/coordinates.interface";
+import MainTemplate from "../templates/main.template";
+import LocationZone from "../molecules/location-zone.molecule";
 import AreaZone from "../molecules/area-zone.molecule";
+import { Toaster } from "../../shadcn/components/ui/toaster";
 
 const AreaPage = () => {
   const { toast } = useToast();
@@ -33,19 +33,39 @@ const AreaPage = () => {
     });
   }
 
-  function validateCoordinates(name: string, value: string) {
-    let regex;
-    if (name === "Longitude") {
-      regex = /^-?((1?[0-7]?|[1]?[0-9]?[0-9])(\.\d+)?|180(\.0+)?)$/;
-    } else {
-      regex = /^-?([1-8]?\d(\.\d+)?|90(\.0+)?)$/;
-    }
-    return regex.test(value);
-  }
-
   const handleChange = (name: string, value: string) => {
-    const validCoordinates = validateCoordinates(name, value);
-    if (!!!validCoordinates) {
+    if (name === "Longitude")
+      setCoordinates({ ...coordinates, ...{ lng: value } });
+    else setCoordinates({ ...coordinates, ...{ lat: value } });
+  };
+
+  const latitudeValidation = (value: string) => {
+    const regex = /^-?([1-8]?\d(\.\d+)?|90(\.0+)?)$/;
+    if (!!!regex.test(value)) {
+      setCoordinates({
+        ...coordinates,
+        ...{ lat: "Obtaining longitude..." },
+      });
+      return false;
+    }
+    return true;
+  };
+
+  const longitudeValidation = (value: string) => {
+    const regex = /^-?((1?[0-7]?|[1]?[0-9]?[0-9])(\.\d+)?|180(\.0+)?)$/;
+    if (!!!regex.test(value)) {
+      setCoordinates({ ...coordinates, ...{ lng: "Obtaining latitude..." } });
+      return false;
+    }
+    return true;
+  };
+
+  const handleValidation = (name: string, value: string) => {
+    const isValid =
+      name === "Longitude"
+        ? longitudeValidation(value)
+        : latitudeValidation(value);
+    if (!!!isValid) {
       toast({
         title: `Invalid input ${name.toLowerCase()}`,
         variant: "destructive",
@@ -53,16 +73,16 @@ const AreaPage = () => {
       });
       return;
     }
-
-    if (name === "Longitude")
-      setCoordinates({ ...coordinates, ...{ lng: value } });
-    else setCoordinates({ ...coordinates, ...{ lat: value } });
   };
 
   return (
     <MainTemplate title="Area selector">
       <div className="flex flex-col">
-        <LocationZone coordinates={coordinates} handleChange={handleChange} />
+        <LocationZone
+          coordinates={coordinates}
+          handleChange={handleChange}
+          handleValidate={handleValidation}
+        />
         <AreaZone coordinates={coordinates} />
         <Toaster />
       </div>
