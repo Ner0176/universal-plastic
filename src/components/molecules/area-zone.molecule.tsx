@@ -18,7 +18,7 @@ const AreaZone: FC<IAreaZone> = ({ coordinates }) => {
   };
 
   return (
-    <div className="flex justify-start flex-col mt-5">
+    <div className="flex justify-start flex-col mt-5 drop-shadow-md">
       {!!!Number(coordinates.lat) || !!!Number(coordinates.lng) ? (
         <Loading text="Loading map..." />
       ) : (

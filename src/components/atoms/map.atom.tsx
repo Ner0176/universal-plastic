@@ -15,7 +15,8 @@ const Map: FC<IMap> = ({ lat, lng, radius,  }) => {
   useEffect(() => {
     const newZoom = !!!radius ? 14 :  13 - Math.log2(radius);
     map.setZoom(newZoom);
-  }, [radius])
+    map.panTo([lat, lng]);
+  }, [radius, lat, lng])
 
   const iconMarker = new Icon({
     iconUrl: require("../../images/icon-marker.png"),
